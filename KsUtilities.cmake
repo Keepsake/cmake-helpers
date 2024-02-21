@@ -78,7 +78,7 @@ function(ks_add_unit_test test_name)
 endfunction()
 
 function(ks_install)
-  cmake_parse_arguments(PARSE_ARGV 0 ARG "" "" "TARGETS")
+  cmake_parse_arguments(PARSE_ARGV 0 ARG "" "" "TARGETS;DEPENDENCIES")
 
   install(
     TARGETS ${ARG_TARGETS}
