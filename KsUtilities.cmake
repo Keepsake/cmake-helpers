@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: MIT
 
 include_guard(GLOBAL)
-set(_KS_UTILITIES_DIR "${CMAKE_CURRENT_LIST_DIR}")
 
 # This function setups the compilation environment to invoke clang-tidy
 # linters on each source file.
@@ -16,12 +15,10 @@ function(ks_setup_linter)
   set(CMAKE_EXPORT_COMPILE_COMMANDS ON PARENT_SCOPE)
 
   set(
-    CXX_CLANG_TIDY
+    CMAKE_CXX_CLANG_TIDY
       "${clangtidy}"
       "--quiet"
       "--header-filter=${PROJECT_SOURCE_DIR}"
-      "--extra-arg=-Wno-unknown-warning-option"
-      "--extra-arg=-Wno-ignored-optimization-argument"
       "--enable-check-profile"
       "--store-check-profile=linter"
       ${CLANG_TIDY_EXTRA_ARGS}
@@ -32,7 +29,7 @@ endfunction()
 # This function setups the fmt target.
 function(ks_setup_formatter)
   add_custom_target(fmt
-    COMMAND ${CMAKE_COMMAND} -P "${_KS_UTILITIES_DIR}/FormatterDriver.cmake"
+    COMMAND "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/FormatterDriver.cmake"
     COMMENT "Formatting sources"
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     VERBATIM
@@ -45,27 +42,6 @@ function(ks_setup_lto)
   include(CheckIPOSupported)
   check_ipo_supported()
   set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE PARENT_SCOPE)
-endfunction()
-
-# Configure the target argument to be checked by the linter tools.
-# In order to work, the linter tools should have been discovered previously
-# by the ks_setup_linter() function.
-function(_ks_target_enable_linter target)
-  set_target_properties(${target} PROPERTIES CXX_CLANG_TIDY "${CXX_CLANG_TIDY}")
-endfunction()
-
-# This function wraps the standard `add_library()` in order to add
-# lint directives to the target.
-function(ks_add_library target_name)
-  add_library(${target_name} ${ARGN})
-  _ks_target_enable_linter(${target_name})
-endfunction()
-
-# This function wraps the standard `add_executable()` in order to add
-# lint directives to the target.
-function(ks_add_executable target_name)
-  add_executable(${target_name} ${ARGN})
-  _ks_target_enable_linter(${target_name})
 endfunction()
 
 # Define a unit test.
@@ -95,7 +71,7 @@ function(ks_install)
   include(CMakePackageConfigHelpers)
 
   configure_package_config_file(
-    "${_KS_UTILITIES_DIR}/ProjectConfig.cmake.in"
+    "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/ProjectConfig.cmake.in"
     "${PROJECT_BINARY_DIR}/${CMAKE_PROJECT_NAME}Config.cmake"
     INSTALL_DESTINATION "share/${CMAKE_PROJECT_NAME}"
   )
