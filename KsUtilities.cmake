@@ -48,7 +48,7 @@ endfunction()
 function(ks_add_unit_test test_name)
   cmake_parse_arguments(PARSE_ARGV 0 ARG "" "" "LIBS;SOURCES")
 
-  ks_add_executable(${test_name} ${ARG_SOURCES})
+  add_executable(${test_name} ${ARG_SOURCES})
   target_link_libraries(${test_name} PRIVATE ${ARG_LIBS})
   add_test(NAME ${test_name} COMMAND ${test_name})
 endfunction()
