@@ -94,6 +94,8 @@ macro(ks_setup)
     ks_setup_linter()
   endif()
 
+  set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+
   ks_setup_formatter()
 
   # Ensure unit test will timeout and be verbose on failure.
