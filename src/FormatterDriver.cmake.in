@@ -8,10 +8,7 @@ endif()
 file(
   GLOB_RECURSE
   sources_files
-  "include/*.[ch]pp"
-  "src/*.[ch]pp"
-  "tests/*.[ch]pp"
-  "benchmarks/*.[ch]pp"
+  @ARG_FILE_PATTERNS@
 )
 
 execute_process(

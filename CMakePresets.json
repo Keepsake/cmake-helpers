@@ -1,0 +1,41 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "default",
+      "binaryDir": "${sourceDir}/out/",
+      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+      "generator": "Ninja Multi-Config"
+    },
+    {
+      "name": "local",
+      "inherits": "default",
+      "cacheVariables": {
+        "CMAKE_EXPORT_PACKAGE_REGISTRY": {
+          "type": "BOOL",
+          "value": "ON"
+        }
+      }
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "default",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "default"
+        }
+      ]
+    },
+    {
+      "name": "local",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "local"
+        }
+      ]
+    }
+  ]
+}

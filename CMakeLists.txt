@@ -1,24 +1,10 @@
 # SPDX-License-Identifier: MIT
+cmake_minimum_required(VERSION 3.29)
 
-cmake_minimum_required(VERSION 3.23)
+project(KsCMakeHelpers VERSION 3.0.0 LANGUAGES NONE)
 
-project(KsCMakeHelpers LANGUAGES NONE)
+include(cmake/options.cmake)
 
-include(CMakePackageConfigHelpers)
+include(src/KsUtilities.cmake)
 
-configure_package_config_file(
-  "KsCMakeHelpersConfig.cmake.in"
-  "${PROJECT_BINARY_DIR}/KsCMakeHelpersConfig.cmake"
-  INSTALL_DESTINATION
-    "share/KsCMakeHelpers"
-)
-
-install(
-  FILES
-    "${PROJECT_BINARY_DIR}/KsCMakeHelpersConfig.cmake"
-    "${PROJECT_SOURCE_DIR}/KsUtilities.cmake"
-    "${PROJECT_SOURCE_DIR}/FormatterDriver.cmake"
-    "${PROJECT_SOURCE_DIR}/ProjectConfig.cmake.in"
-  DESTINATION
-    "share/KsCMakeHelpers"
-)
+include(cmake/install.cmake)

@@ -1,0 +1,3 @@
+# SPDX-License-Identifier: MIT
+
+option(KS_CMAKE_HELPERS_INSTALL "Install ${PROJECT_NAME}" ${PROJECT_IS_TOP_LEVEL})
